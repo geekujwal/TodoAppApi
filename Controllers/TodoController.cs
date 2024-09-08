@@ -27,4 +27,10 @@ public class TodoListController : ControllerBase
         await _todolistService.DeleteTodoItemAsync(id, cancellationToken); 
         return NoContent();
     }
+
+    [HttpGet]
+    public async Task<dynamic> GetTodoListAsync([FromQuery]PageFilter pageFilter, CancellationToken cancellationToken )
+    {
+        return await _todolistService.GetTodoItemAsync(pageFilter, cancellationToken); 
+    }
 }

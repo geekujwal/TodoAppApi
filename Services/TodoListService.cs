@@ -43,9 +43,13 @@ public class TodoListService : ITodoListService
         }
     }
 
-    public Task<dynamic> GetTodoItemAsync(PageFilter filter, CancellationToken cancellationToken)
+    public async Task<dynamic> GetTodoItemAsync(PageFilter pageFilter, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
-        // var 
+        // todo with pagination
+        // todo map the response
+        // todo add text search feature
+        var filter = Builders<TodoListDocument>.Filter.Empty;
+        var result = await _todoListDocument.FindAsync<TodoListDocument>(filter, cancellationToken: cancellationToken);
+        return result.ToListAsync(cancellationToken: cancellationToken);
     }
 }
