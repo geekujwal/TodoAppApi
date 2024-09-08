@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using TodoAppApi.Abstractions;
 using TodoAppApi.Contracts;
+using TodoAppApi.Middlewares;
 using TodoAppApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthorization();
 
