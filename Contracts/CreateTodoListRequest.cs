@@ -1,6 +1,6 @@
 namespace TodoAppApi.Contracts;
 
-public class CreateTodoListRequest
+public class CreateOrUpdateTodoListRequest
 {
     public string Title { get; set; }
     // public float Rank { get; set; }

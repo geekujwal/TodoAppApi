@@ -15,15 +15,16 @@ public class TodoListController : ControllerBase
         _todolistService = todolistService;
     }
 
-    [HttpGet(Name = "TodoList")]
-    public void GetTodoListAsync()
-    {
-        var x = 1 + 1;
-    }
-
-    [HttpPost(Name = "TodoList")]
-    public async Task<string> CreateTodoListAsync(CreateTodoListRequest request, CancellationToken cancellationToken )
+    [HttpPost]
+    public async Task<string> CreateTodoListAsync([FromBody]CreateOrUpdateTodoListRequest request, CancellationToken cancellationToken )
     {
         return await _todolistService.CreateTodoListAsync(request, cancellationToken); 
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTodoListAsync(string id, CancellationToken cancellationToken )
+    {
+        await _todolistService.DeleteTodoItemAsync(id, cancellationToken); 
+        return NoContent();
     }
 }

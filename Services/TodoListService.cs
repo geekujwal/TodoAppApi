@@ -12,7 +12,7 @@ public class TodoListService : ITodoListService
     {
         _todoListDocument = context.GetCollection<TodoListDocument>(nameof(TodoListDocument));
     }
-    public async Task<string> CreateTodoListAsync(CreateTodoListRequest request, CancellationToken cancellationToken )
+    public async Task<string> CreateTodoListAsync(CreateOrUpdateTodoListRequest request, CancellationToken cancellationToken)
     {
         // todo get todo from before and after
         // if they are empty assum no item in list
@@ -27,5 +27,25 @@ public class TodoListService : ITodoListService
         };
         await _todoListDocument.InsertOneAsync(todo, cancellationToken: cancellationToken);
         return todo.Id;
+    }
+
+    public async Task DeleteTodoItemAsync(string id, CancellationToken cancellationToken)
+    {
+        var filter = Builders<TodoListDocument>.Filter.Eq(doc => doc.Id, id);
+        var result = await _todoListDocument.DeleteOneAsync(filter, cancellationToken);
+        if (result.DeletedCount > 0)
+        {
+            return;
+        }
+        else
+        {
+            throw new Exception("Item Not found");
+        }
+    }
+
+    public Task<dynamic> GetTodoItemAsync(PageFilter filter, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+        // var 
     }
 }
