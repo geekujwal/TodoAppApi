@@ -33,4 +33,10 @@ public class TodoListController : ControllerBase
     {
         return await _todolistService.GetTodoItemAsync(pageFilter, cancellationToken); 
     }
+
+    [HttpPut("{id}")]
+    public async Task<bool> UpdateTodoListAsync(string id, [FromBody] CreateOrUpdateTodoListRequest request, CancellationToken cancellationToken)
+    {
+        return await _todolistService.UpdateTodoListAsync(id, request, cancellationToken);
+    }
 }

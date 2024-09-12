@@ -10,4 +10,6 @@ public interface ITodoListService
 
     //todo need to use actual DTO instead of dynamic
     Task<dynamic> GetTodoItemAsync(PageFilter filter, CancellationToken cancellationToken);
+
+    Task<bool> UpdateTodoListAsync(string id, CreateOrUpdateTodoListRequest request, CancellationToken cancellationToken);
 }
