@@ -1,23 +1,21 @@
 using Microsoft.Extensions.Options;
 using TodoAppApi.Abstractions;
 using TodoAppApi.Contracts;
+using TodoAppApi.Hubs;
 using TodoAppApi.Middlewares;
 using TodoAppApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 ConfigureServices(builder.Services);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -30,7 +28,10 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthorization();
 
+app.MapHub<TodoListHub>("/todolisthub");
+
 app.MapControllers();
+
 
 app.Run();
 
@@ -47,4 +48,6 @@ void ConfigureServices(IServiceCollection services)
     services.AddSingleton<MongoDbContext>();
 
     services.AddControllers();
+
+    services.AddSignalR();
 }
