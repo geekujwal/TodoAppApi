@@ -2,6 +2,7 @@ using MongoDB.Driver;
 using TodoAppApi.Abstractions;
 using TodoAppApi.Contracts;
 using TodoAppApi.Documents;
+using TodoAppApi.Mapper;
 
 namespace TodoAppApi.Service;
 
@@ -57,14 +58,17 @@ public class TodoListService : ITodoListService
         }
     }
 
-    public async Task<dynamic> GetTodoItemAsync(PageFilter pageFilter, CancellationToken cancellationToken)
+    public async Task<List<GetTodoListResponse>> GetTodoItemAsync(PageFilter pageFilter, CancellationToken cancellationToken)
     {
         // todo with pagination
         // todo map the response
         // todo add text search feature
         var filter = Builders<TodoListDocument>.Filter.Empty;
         var result = await _todoListDocument.FindAsync<TodoListDocument>(filter, cancellationToken: cancellationToken);
-        return result.ToListAsync(cancellationToken: cancellationToken);
+        var response =  await result.ToListAsync(cancellationToken: cancellationToken);
+        var mapperResponse = response.Select(res => new TodoDocumentToGetTodoResponseMapper().TodoDocumentToGetTodoResponse(res)).ToList();
+        return mapperResponse;
+
     }
 
     public async Task<bool> UpdateTodoListAsync(string id, CreateOrUpdateTodoListRequest request, CancellationToken cancellationToken)

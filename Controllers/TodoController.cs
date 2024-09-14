@@ -29,7 +29,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<dynamic> GetTodoListAsync([FromQuery]PageFilter pageFilter, CancellationToken cancellationToken )
+    public async Task<List<GetTodoListResponse>> GetTodoListAsync([FromQuery]PageFilter pageFilter, CancellationToken cancellationToken )
     {
         return await _todolistService.GetTodoItemAsync(pageFilter, cancellationToken); 
     }
